@@ -110,6 +110,34 @@ export const Header = () => {
             <Link href="/our-campaigns" className={linkClasses("/our-campaigns")}>
               Our Campaigns
             </Link>
+             <div
+            className="relative"
+            onMouseEnter={() => setOpen(true)}
+            // onMouseLeave={() => setOpen(false)}
+            onMouseLeave={() => setTimeout(() => setOpen(false), 200)}
+          >
+            <button
+              className={`${linkClasses("/our-campaigns")} flex items-center gap-1`}
+            >
+              Our Campaigns <ChevronDown size={16} />
+            </button>
+
+            {/* Dropdown */}
+            {open && (
+              <div className="absolute left-0 mt-1 w-70 bg-white shadow-lg rounded-lg overflow-hidden border z-50">
+                {campaigns.map((item, index) => (
+                  <Link
+                    key={item.link}
+                    href={item.link}
+                    className="block px-4 py-3 hover:bg-gray-100 transition"
+                  >
+                    <p className="font-semibold text-[#00296b]">{item.title}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
             <Link href="/how-it-work" className={linkClasses("/how-it-work")}>
               How It Works
             </Link>

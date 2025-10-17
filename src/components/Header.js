@@ -81,6 +81,9 @@ export const Header = () => {
           <Link href="#work" className={linkClasses("#work")}>
             How It Works
           </Link>
+          <Link href="faq/" className={linkClasses("#contact")}>
+            FAQ
+          </Link>
           <Link href="#contact" className={linkClasses("#contact")}>
             Contact Us
           </Link>

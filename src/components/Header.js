@@ -12,7 +12,7 @@ export const Header = () => {
   const [open, setOpen] = useState(false);
 
   const linkClasses = (href) =>
-    `hover:text-[#00296b] ${pathname === href
+    `hover:text-[#fff] ${pathname === href
       ? "text-[#f4f4f4] font-bold underline underline-offset-4"
       : ""
     }`;
@@ -48,13 +48,14 @@ export const Header = () => {
           <Link href="/" className={linkClasses("/")}>
             Home
           </Link>
-          <Link href="#about" className={linkClasses("#about")}>
+          <Link href="/aboutus" className={linkClasses("/aboutus")}>
             About Us
           </Link>
           <div
             className="relative"
             onMouseEnter={() => setOpen(true)}
-            onMouseLeave={() => setOpen(false)}
+            // onMouseLeave={() => setOpen(false)}
+            onMouseLeave={() => setTimeout(() => setOpen(false), 200)}
           >
             <button
               className={`${linkClasses("/our-campaigns")} flex items-center gap-1`}
@@ -78,10 +79,13 @@ export const Header = () => {
             )}
           </div>
 
-          <Link href="#work" className={linkClasses("#work")}>
+          <Link href="/how-it-work" className={linkClasses("how-it-work")}>
             How It Works
           </Link>
-          <Link href="#contact" className={linkClasses("#contact")}>
+          <Link href="/faq/" className={linkClasses("#contact")}>
+            FAQ
+          </Link>
+          <Link href="/contactus" className={linkClasses("#contact")}>
             Contact Us
           </Link>
         </nav>
@@ -100,19 +104,47 @@ export const Header = () => {
             <Link href="/" className={linkClasses("/")}>
               Home
             </Link>
-            <Link href="/about-us" className={linkClasses("/about-us")}>
+            <Link href="/aboutus" className={linkClasses("/aboutus")}>
               About Us
             </Link>
             <Link href="/our-campaigns" className={linkClasses("/our-campaigns")}>
               Our Campaigns
             </Link>
-            <Link href="/works" className={linkClasses("/works")}>
+             <div
+            className="relative"
+            onMouseEnter={() => setOpen(true)}
+            // onMouseLeave={() => setOpen(false)}
+            onMouseLeave={() => setTimeout(() => setOpen(false), 200)}
+          >
+            <button
+              className={`${linkClasses("/our-campaigns")} flex items-center gap-1`}
+            >
+              Our Campaigns <ChevronDown size={16} />
+            </button>
+
+            {/* Dropdown */}
+            {open && (
+              <div className="absolute left-0 mt-1 w-70 bg-white shadow-lg rounded-lg overflow-hidden border z-50">
+                {campaigns.map((item, index) => (
+                  <Link
+                    key={item.link}
+                    href={item.link}
+                    className="block px-4 py-3 hover:bg-gray-100 transition"
+                  >
+                    <p className="font-semibold text-[#00296b]">{item.title}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+            <Link href="/how-it-work" className={linkClasses("/how-it-work")}>
               How It Works
             </Link>
-            <Link href="/law" className={linkClasses("/law")}>
-              For Law Firms
+            <Link href="/faq" className={linkClasses("/faq")}>
+              FAQs
             </Link>
-            <Link href="/contact" className={linkClasses("/contact")}>
+            <Link href="/contactus" className={linkClasses("/contactus")}>
               Contact Us
             </Link>
           </nav>

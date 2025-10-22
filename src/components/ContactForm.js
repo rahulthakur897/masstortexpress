@@ -1,14 +1,14 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
 
-export const ContactForm = ({ title }) => {
+export const ContactForm = ({ title, caseType }) => {
    const fullNameRef = useRef(null);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
     company: "",
-    caseType: "",
+    caseType: caseType !=='' ? caseType: "",
     message: "",
     file: null,
   });
@@ -32,7 +32,6 @@ export const ContactForm = ({ title }) => {
     e.preventDefault();
     console.log("Form Data:", formData);
   };
-
 
   return (
     <div id="contact" className="text-gray-900">

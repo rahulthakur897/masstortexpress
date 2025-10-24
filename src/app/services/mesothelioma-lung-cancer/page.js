@@ -1,5 +1,6 @@
 import { ContactForm } from "@/components";
-export default function CampLejeune() {
+
+export default function MesotheliomaLungCancer() {
   return (
     <main>
       <section className="relative flex flex-col items-center justify-center min-h-[450px] sm:min-h-[500px] md:min-h-[500px] bg-[url('/assets/images/services/mesothelioma-lung-cancer.jpg')] bg-cover bg-center bg-no-repeat">
@@ -16,9 +17,9 @@ export default function CampLejeune() {
         className="relative text-[#000] flex flex-col md:flex-row gap-8 py-8 w-[95%] md:w-[90%] m-auto"
       >
         <div className="w-full md:w-[60%]">
-          <h2 className="text-2xl sm:text-3xl md:text-[3rem] font-bold text-[#000e30]">
-            Understanding Mesothelioma & Lung Cancer Lawsuits
-            <span className="text-[#439E30]">& Lung Cancer Lawsuits</span>
+          <h2 className="text-2xl sm:text-3xl md:text-[2.5rem] font-bold text-[#000e30] whitespace-pre-line">
+            Understanding the{"\n"}
+            <span className="text-[#439E30]">Mesothelioma & Lung Cancer Lawsuits</span>
           </h2>
           <div>
             <p className="p-[1em]">
@@ -33,8 +34,9 @@ export default function CampLejeune() {
             </p>
             <h3 className="text-xl sm:text-2xl md:text-[1.75rem] text-[#000e30] pb-3 font-bold">
               If any of the following applies to you,
-              <span className="text-[#439E30]">you may have a claim. </span>,
-              Don't wait, get a free case review! File Now!
+              <span className="text-[#439E30]"> you may have a claim. </span>
+              Don't wait, get a free case review! 
+              <span className="text-[#439E30]"> File Now!</span>
             </h3>
             <ul className="list-disc pt-[0.5rem] px-[2rem]">
               <li className="p-1">
@@ -59,10 +61,7 @@ export default function CampLejeune() {
           </div>
         </div>
         <div className="relative md:absolute md:-top-[8rem] md:right-0 w-full md:w-[40%] bg-transparent md:bg-white md:shadow-lg md:rounded-2xl p-6 md:p-8 max-w-xl mx-auto">
-          <h3 className="text-xl sm:text-2xl md:text-[1.75rem] text-[#000e30] pb-3 font-bold">
-            Get Your Free Case Review Today
-          </h3>
-          <ContactForm caseType="Car or Truck Accident" />
+          <ContactForm formType="MesotheliomaLungCancer" />
         </div>
       </section>
       {/*section 3*/}
@@ -70,7 +69,7 @@ export default function CampLejeune() {
       <section className="relative text-[#000] py-2 w-[95%] md:w-[90%] m-auto">
         <h3 className="text-xl sm:text-2xl md:text-[1.75rem] text-[#000e30] pb-3 font-bold">
           Why Partner with Class Action North America
-          <span className="text-[#439E30]">for Asbestos-Related Claims</span>
+          <span className="text-[#439E30]"> for Asbestos-Related Claims</span>
         </h3>
         <ul className="list-disc pt-[0.5rem] px-[2rem]">
           <li className="p-1">

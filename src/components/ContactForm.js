@@ -1,16 +1,13 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
 
-export const ContactForm = ({ title, caseType }) => {
-   const fullNameRef = useRef(null);
+export const ContactForm = ({ formType }) => {
+  const fullNameRef = useRef(null);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
-    company: "",
-    caseType: caseType !=='' ? caseType: "",
     message: "",
-    file: null,
   });
 
   useEffect(() => {
@@ -35,11 +32,9 @@ export const ContactForm = ({ title, caseType }) => {
 
   return (
     <div id="contact" className="text-gray-900">
-      {title && (
-        <h2 className="text-2xl font-bold mb-6 text-center text-green-700">
-          {title}
-        </h2>
-      )}
+      <h2 className="text-2xl font-bold mb-6 text-center text-green-700">
+        Get Your Free Case Review Today
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Full Name */}
         <div className="relative">
@@ -95,25 +90,61 @@ export const ContactForm = ({ title, caseType }) => {
           </label>
         </div>
 
-        {/* Company */}
-        <div className="relative">
-          <input
-            type="text"
-            name="company"
-            value={formData.company}
+        {(formType === "CampLejeune" ||
+          formType === "AutoVehicleAccident" ||
+          formType === "ParaquatLawsuit") ? <div className="relative">
+          <select
+            name="qualifier"
+            value={formData.qualifier}
             onChange={handleChange}
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
-            placeholder="Company"
-          />
+          >
+            <option value="">Select an option</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
           <label className="absolute left-0 -top-3.5 text-sm text-green-700 transition-all 
             peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-base 
             peer-focus:-top-3.5 peer-focus:text-green-700 peer-focus:text-sm">
-            Company
+            Have your read the qualifier questions ?:
           </label>
-        </div>
+        </div> : null}
 
-        {/* Dropdown: Case Type */}
-        <div className="relative">
+        {formType === "MesotheliomaLungCancer" ? <>
+          <div className="relative">
+            <select
+              name="diagnosis"
+              value={formData.diagnosis}
+              onChange={handleChange}
+              className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
+            >
+              <option value="">Select a diagnosis</option>
+              <option value="Mesothelioma">Mesothelioma</option>
+              <option value="Lung Cancer">Lung Cancer</option>
+              <option value="Asbestosis">Asbestosis</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div className="relative">
+            <select
+              name="qualifier"
+              value={formData.qualifier}
+              onChange={handleChange}
+              className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
+            >
+              <option value="">Select an option</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <label className="absolute left-0 -top-3.5 text-sm text-green-700 transition-all 
+            peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-base 
+            peer-focus:-top-3.5 peer-focus:text-green-700 peer-focus:text-sm">
+              Have your read the qualifier questions ?:
+            </label>
+          </div>
+        </> : null}
+
+        {formType === "Contact" ? <div className="relative">
           <select
             name="caseType"
             value={formData.caseType}
@@ -121,7 +152,7 @@ export const ContactForm = ({ title, caseType }) => {
             required
             className="peer w-full border-b-2 border-gray-300 py-2 bg-transparent focus:border-green-700 outline-none"
           >
-            <option className="text-gray-300" value="" disabled hidden>
+            <option className="text-gray-300" value="">
               Select Class Action / Mass Tort
             </option>
             <option value="Paraquat Lawsuit">Paraquat Lawsuit</option>
@@ -133,7 +164,7 @@ export const ContactForm = ({ title, caseType }) => {
             <option value="Talcum Powder Lawsuit">Talcum Powder Lawsuit</option>
             <option value="Other/General Inquiry">Other/General Inquiry</option>
           </select>
-        </div>
+        </div> : null}
 
 
         <div className="relative w-full">

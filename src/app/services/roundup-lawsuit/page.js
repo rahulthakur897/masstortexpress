@@ -1,4 +1,4 @@
-export default function AutoVehicleAccident() {
+export default function RoundupLawsuit() {
     return (
         <main>
             <section className="relative flex flex-col items-center justify-center min-h-[450px] sm:min-h-[500px] md:min-h-[500px] bg-[url('/assets/images/services/roundup.jpg')] bg-cover bg-center bg-no-repeat">

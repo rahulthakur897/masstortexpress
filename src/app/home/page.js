@@ -69,10 +69,7 @@ export default function Home() {
           </div>
         </div>
         <div className="relative md:absolute md:-top-[8rem] md:right-0 w-full md:w-[40%] bg-transparent md:bg-white md:shadow-lg md:rounded-2xl p-6 md:p-8 max-w-xl mx-auto">
-          <h3 className="text-xl sm:text-2xl md:text-[1.75rem] text-[#000e30] pb-3 font-bold">
-            Get Your Free Case Review Today
-          </h3>
-          <ContactForm />
+          <ContactForm formType="Contact" />
         </div>
       </section>
 

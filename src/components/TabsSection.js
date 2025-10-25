@@ -13,7 +13,7 @@ export const TabsSection = ({tabs, content, defaultTabId}) => {
       <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
         <ul className="flex flex-wrap text-sm font-medium text-center">
           {tabs.map((tab) => (
-            <li key={tab.id} className="me-2">
+            <li key={tab.id}>
               <button
                 onClick={() => setActiveTab(tab.id)}
                 className={`tracking-tight inline-block px-4 py-2 text-[1rem] border-b-2 rounded-t-lg transition-all ${

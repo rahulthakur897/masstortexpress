@@ -1,21 +1,23 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export const ContactForm = ({ title, caseType }) => {
-   const fullNameRef = useRef(null);
+   const name = useRef(null);
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
-    phone: "",
+    contact: "",
     company: "",
-    caseType: caseType !=='' ? caseType: "",
-    message: "",
-    file: null,
+    case_type: caseType !=='' ? caseType: "",
+    query: "",
   });
-
+const [response, setResponse] = useState("");
   useEffect(() => {
-    if (window.location.hash === "#contact" && fullNameRef.current) {
-      fullNameRef.current.focus();
+    if (window.location.hash === "#contact" && name.current) {
+      name.current.focus();
     }
   }, []);
 
@@ -28,10 +30,43 @@ export const ContactForm = ({ title, caseType }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "http://localhost/anurag/masstortexpress/api/add-query.php",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (res.status === 200) {
+      setResponse(res?.data?.message || "Query submitted successfully!");
+      setFormData({
+        fullName: "",
+        email: "",
+        contact: "",
+        company: "",
+        case_type: caseType !== "" ? caseType : "",
+        query: "",
+      });
+      toast.success(response || "")  
+    } else {
+      setResponse(res?.data?.message || "Submission failed!");
+      toast.error(response || "")  
+    }
+      toast.success(response || "")   
+  } catch (error) {
+    console.error("API Error:", error);
+    setResponse(
+      `Error: ${
+        error.response?.data?.error || error.message || "Something went wrong!"
+      }`
+    );
+  }
+};
 
   return (
     <div id="contact" className="text-gray-900">
@@ -40,14 +75,15 @@ export const ContactForm = ({ title, caseType }) => {
           {title}
         </h2>
       )}
-      <form onSubmit={handleSubmit} className="space-y-6">
+              
+ <form onSubmit={handleSubmit} className="space-y-6">
         {/* Full Name */}
         <div className="relative">
           <input
-            ref={fullNameRef}
+            ref={name}
             type="text"
-            name="fullName"
-            value={formData.fullName}
+            name="name"
+            value={formData.name ||""}
             onChange={handleChange}
             required
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
@@ -65,7 +101,7 @@ export const ContactForm = ({ title, caseType }) => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formData.email ||""}
             onChange={handleChange}
             required
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
@@ -78,12 +114,12 @@ export const ContactForm = ({ title, caseType }) => {
           </label>
         </div>
 
-        {/* Phone */}
+        {/* contact */}
         <div className="relative">
           <input
             type="text"
-            name="phone"
-            value={formData.phone}
+            name="contact"
+            value={formData.contact ||""}
             onChange={handleChange}
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
             placeholder="Contact Number"
@@ -100,7 +136,7 @@ export const ContactForm = ({ title, caseType }) => {
           <input
             type="text"
             name="company"
-            value={formData.company}
+            value={formData.company ||""}
             onChange={handleChange}
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
             placeholder="Company"
@@ -115,8 +151,8 @@ export const ContactForm = ({ title, caseType }) => {
         {/* Dropdown: Case Type */}
         <div className="relative">
           <select
-            name="caseType"
-            value={formData.caseType}
+            name="case_type"
+            value={formData.case_type}
             onChange={handleChange}
             required
             className="peer w-full border-b-2 border-gray-300 py-2 bg-transparent focus:border-green-700 outline-none"
@@ -138,9 +174,9 @@ export const ContactForm = ({ title, caseType }) => {
 
         <div className="relative w-full">
           <textarea
-            id="message"
-            name="message"
-            value={formData.message}
+            id="query"
+            name="query"
+            value={formData.query ||""}
             onChange={handleChange}
             required
             rows={5}
@@ -168,6 +204,7 @@ export const ContactForm = ({ title, caseType }) => {
           </button>
         </div>
       </form>
+     {response !=''? <ToastContainer position="top-right" autoClose={3000} /> :""}
     </div>
   );
 };

@@ -1,18 +1,23 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
-export const ContactForm = ({ formType }) => {
-  const fullNameRef = useRef(null);
+export const ContactForm = ({ title, caseType }) => {
+   const name = useRef(null);
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
-    phone: "",
-    message: "",
+    contact: "",
+    company: "",
+    case_type: caseType !=='' ? caseType: "",
+    query: "",
   });
-
+const [response, setResponse] = useState("");
   useEffect(() => {
-    if (window.location.hash === "#contact" && fullNameRef.current) {
-      fullNameRef.current.focus();
+    if (window.location.hash === "#contact" && name.current) {
+      name.current.focus();
     }
   }, []);
 
@@ -25,24 +30,60 @@ export const ContactForm = ({ formType }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "http://localhost/anurag/masstortexpress/api/add-query.php",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (res.status === 200) {
+      setResponse(res?.data?.message || "Query submitted successfully!");
+      setFormData({
+        fullName: "",
+        email: "",
+        contact: "",
+        company: "",
+        case_type: caseType !== "" ? caseType : "",
+        query: "",
+      });
+      toast.success(response || "")  
+    } else {
+      setResponse(res?.data?.message || "Submission failed!");
+      toast.error(response || "")  
+    }
+      toast.success(response || "")   
+  } catch (error) {
+    console.error("API Error:", error);
+    setResponse(
+      `Error: ${
+        error.response?.data?.error || error.message || "Something went wrong!"
+      }`
+    );
+  }
+};
 
   return (
     <div id="contact" className="text-gray-900">
-      <h2 className="text-2xl font-bold mb-6 text-center text-green-700">
-        Get Your Free Case Review Today
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      {title && (
+        <h2 className="text-2xl font-bold mb-6 text-center text-green-700">
+          {title}
+        </h2>
+      )}
+              
+ <form onSubmit={handleSubmit} className="space-y-6">
         {/* Full Name */}
         <div className="relative">
           <input
-            ref={fullNameRef}
+            ref={name}
             type="text"
-            name="fullName"
-            value={formData.fullName}
+            name="name"
+            value={formData.name ||""}
             onChange={handleChange}
             required
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
@@ -60,7 +101,7 @@ export const ContactForm = ({ formType }) => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formData.email ||""}
             onChange={handleChange}
             required
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
@@ -73,12 +114,12 @@ export const ContactForm = ({ formType }) => {
           </label>
         </div>
 
-        {/* Phone */}
+        {/* contact */}
         <div className="relative">
           <input
             type="text"
-            name="phone"
-            value={formData.phone}
+            name="contact"
+            value={formData.contact ||""}
             onChange={handleChange}
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
             placeholder="Contact Number"
@@ -90,69 +131,33 @@ export const ContactForm = ({ formType }) => {
           </label>
         </div>
 
-        {(formType === "CampLejeune" ||
-          formType === "AutoVehicleAccident" ||
-          formType === "ParaquatLawsuit") ? <div className="relative">
-          <select
-            name="qualifier"
-            value={formData.qualifier}
+        {/* Company */}
+        <div className="relative">
+          <input
+            type="text"
+            name="company"
+            value={formData.company ||""}
             onChange={handleChange}
             className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
-          >
-            <option value="">Select an option</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
+            placeholder="Company"
+          />
           <label className="absolute left-0 -top-3.5 text-sm text-green-700 transition-all 
             peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-base 
             peer-focus:-top-3.5 peer-focus:text-green-700 peer-focus:text-sm">
-            Have your read the qualifier questions ?:
+            Company
           </label>
-        </div> : null}
+        </div>
 
-        {formType === "MesotheliomaLungCancer" ? <>
-          <div className="relative">
-            <select
-              name="diagnosis"
-              value={formData.diagnosis}
-              onChange={handleChange}
-              className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
-            >
-              <option value="">Select a diagnosis</option>
-              <option value="Mesothelioma">Mesothelioma</option>
-              <option value="Lung Cancer">Lung Cancer</option>
-              <option value="Asbestosis">Asbestosis</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div className="relative">
-            <select
-              name="qualifier"
-              value={formData.qualifier}
-              onChange={handleChange}
-              className="peer w-full border-b-2 border-gray-300 py-2 text-gray-900 placeholder-transparent focus:border-green-700 outline-none"
-            >
-              <option value="">Select an option</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-            <label className="absolute left-0 -top-3.5 text-sm text-green-700 transition-all 
-            peer-placeholder-shown:top-2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-base 
-            peer-focus:-top-3.5 peer-focus:text-green-700 peer-focus:text-sm">
-              Have your read the qualifier questions ?:
-            </label>
-          </div>
-        </> : null}
-
-        {formType === "Contact" ? <div className="relative">
+        {/* Dropdown: Case Type */}
+        <div className="relative">
           <select
-            name="caseType"
-            value={formData.caseType}
+            name="case_type"
+            value={formData.case_type}
             onChange={handleChange}
             required
             className="peer w-full border-b-2 border-gray-300 py-2 bg-transparent focus:border-green-700 outline-none"
           >
-            <option className="text-gray-300" value="">
+            <option className="text-gray-300" value="" disabled hidden>
               Select Class Action / Mass Tort
             </option>
             <option value="Paraquat Lawsuit">Paraquat Lawsuit</option>
@@ -164,14 +169,14 @@ export const ContactForm = ({ formType }) => {
             <option value="Talcum Powder Lawsuit">Talcum Powder Lawsuit</option>
             <option value="Other/General Inquiry">Other/General Inquiry</option>
           </select>
-        </div> : null}
+        </div>
 
 
         <div className="relative w-full">
           <textarea
-            id="message"
-            name="message"
-            value={formData.message}
+            id="query"
+            name="query"
+            value={formData.query ||""}
             onChange={handleChange}
             required
             rows={5}
@@ -199,6 +204,7 @@ export const ContactForm = ({ formType }) => {
           </button>
         </div>
       </form>
+     {response !=''? <ToastContainer position="top-right" autoClose={3000} /> :""}
     </div>
   );
 };
